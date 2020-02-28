@@ -1,0 +1,34 @@
+.header{
+    align-items: center;
+    background-color: black;
+    border-radius: 6px;
+}
+.header h1 {
+    margin: 1rem;
+}
+.header ul {
+    margin-top: 1rem;
+}
+.header ul li{
+    padding: 0.25rem 0.5rem;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    background-color: white;
+    border-radius: 3px;
+    margin: 0 10px 0 0;
+}
+.header ul li:last-child{
+    margin: 0;
+}
+.header ul li:hover{
+    cursor: pointer;
+    background-color: whitesmoke;
+}
+.header a{
+    text-decoration: none;
+    color: gray;
+}
+.header h1 a{
+    color: white;
+}

@@ -1,0 +1,9 @@
+.item-list li{
+    /* background-color: rgb(68, 68, 68); */
+    background-color: black;
+    border: 1px solid rgba(68,66,66,0.62);
+}
+.item-list li:hover{
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.342);
+}
