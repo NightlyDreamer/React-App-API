@@ -7,7 +7,7 @@ export default class PersonDetails extends Component {
     render() {
         return (
             <div className="person-details d-flex">
-				<img src="https://images.ru.prom.st/236444108_w640_h640_droid-r2d2-figurka.jpg"/> 
+				<img alt="person" src="https://images.ru.prom.st/236444108_w640_h640_droid-r2d2-figurka.jpg"/> 
 				<div className="ml-4">
 					<h2>R2-D2</h2>
 					<ul className="list-group">
