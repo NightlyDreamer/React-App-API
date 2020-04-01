@@ -1,0 +1,14 @@
+.error-indicator {
+    display: grid;
+    margin: 0 auto;
+    text-align: center;
+    color: tomato;
+    font-size: 18px;
+}
+.error-indicator img {
+    margin-left: 40px;
+}
+.boom {
+    font-weight: 900;
+    font-size: 30px;
+}
