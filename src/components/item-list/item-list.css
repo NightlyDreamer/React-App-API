@@ -1,6 +1,14 @@
+.item-list{
+    background-color: rgb(31, 30, 30);
+    border-radius: 6px;
+    padding: 15px;
+    border: 1px solid rgba(128, 128, 128, 0.4);
+}
 .item-list ul li{
-    background-color: black;
-    border: 1px solid rgba(68,66,66,0.62);
+    border: 1px solid rgba(0, 0, 0, 0);
+    background-color: rgb(31, 30, 30);
+    border-bottom: 1px solid grey;
+    padding: 0.5rem;
 }
 .item-list ul li:hover{
     cursor: pointer;

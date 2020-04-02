@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import SwapiService from '../../services/swapi-service';
 import ErrorIndicator from '../error-indicator';
 import Spiner from '../spiner';
-
+import ErrorButton from '../error-button';
 import './person-details.css';
 
 export default class PersonDetails extends Component {
@@ -25,12 +25,16 @@ export default class PersonDetails extends Component {
 		}
 	}
 
+	componentDidCatch() {
+		this.setState({error: true})
+	}
+
 	updatePerson = () => {
 		const { personId } = this.props;
 		if (!personId) {
 			return;
 		}
-		this.setState({loading:true})
+		this.setState({loading:true, error: false})
 
 		this.swapiServes
 			.getPersone(personId)
@@ -85,7 +89,7 @@ const PersonDetailsView = ({person: { id, name, gender, birthYear, eyeColor }}) 
 			<div className="ml-3">
 				<h2>{name}</h2>
 				<ul
-					className="list-group list-group-flush">
+					className="list-group list-group-flush mb-3">
 					<li className="list-group-item">
 						<span className="term">Gender:</span>
 						<span>{gender}</span>
@@ -99,6 +103,7 @@ const PersonDetailsView = ({person: { id, name, gender, birthYear, eyeColor }}) 
 						<span>{eyeColor}</span>
 					</li>
 				</ul>
+				<ErrorButton/>
 			</div>
 		</React.Fragment>
 	)
