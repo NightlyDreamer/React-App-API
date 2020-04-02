@@ -1,22 +1,105 @@
 import React, { Component } from 'react';
 
+import SwapiService from '../../services/swapi-service';
+import ErrorIndicator from '../error-indicator';
+import Spiner from '../spiner';
+
 import './person-details.css';
 
 export default class PersonDetails extends Component {
+	swapiServes = new SwapiService();
 
-    render() {
-        return (
-            <div className="person-details d-flex">
-				<img alt="person" src="https://images.ru.prom.st/236444108_w640_h640_droid-r2d2-figurka.jpg"/> 
-				<div className="ml-4">
-					<h2>R2-D2</h2>
-					<ul className="list-group">
-						<li className="list-group-item">Gender: male</li>
-						<li className="list-group-item">Birth Year: 42</li>
-						<li className="list-group-item">Eye Color: red</li>
-					</ul>
-				</div>
+	state = {
+		person: null,
+		loading: true,
+		error: false,
+	}
+
+	componentDidMount() {
+		this.updatePerson();
+	}
+
+	componentDidUpdate(prevProps) {
+		if (this.props.personId !== prevProps.personId) {
+			this.updatePerson();
+		}
+	}
+
+	updatePerson = () => {
+		const { personId } = this.props;
+		if (!personId) {
+			return;
+		}
+		this.setState({loading:true})
+
+		this.swapiServes
+			.getPersone(personId)
+			.then(this.onLoaded)
+			.catch(this.onError)
+	}
+
+	onLoaded = (person) => {
+		this.setState({
+			loading: false,
+			person,
+		})
+	};
+
+	onError = (err) => {
+		this.setState({
+			loading: false,
+			error: true,
+		})
+	};
+
+	render() {
+		const { person, loading, error } = this.state;
+
+		const hasData = !(loading || error);
+		const errorMessage = error ? <ErrorIndicator /> : null;
+		const spinner = loading ? <Spiner /> : null;
+		const content = hasData ? <PersonDetailsView person={person} /> : null;
+
+		if (!this.state.person) {
+			return <span>Select a person from a person list</span>
+		}
+		
+		return (
+			<div className="person-details d-flex">
+				{spinner}
+				{content}
+				{errorMessage}
 			</div>
-        )
-    }
+		)
+	}
+}
+
+const PersonDetailsView = ({person: { id, name, gender, birthYear, eyeColor }}) => {
+	
+	return (
+		<React.Fragment>
+			<img
+				alt="person"
+				src={`https://starwars-visualguide.com/assets/img/characters/${id}.jpg`} />
+
+			<div className="ml-3">
+				<h2>{name}</h2>
+				<ul
+					className="list-group list-group-flush">
+					<li className="list-group-item">
+						<span className="term">Gender:</span>
+						<span>{gender}</span>
+					</li>
+					<li className="list-group-item">
+						<span className="term">Birth Year:</span>
+						<span>{birthYear}</span>
+					</li>
+					<li className="list-group-item">
+						<span className="term">Eye Color:</span>
+						<span>{eyeColor}</span>
+					</li>
+				</ul>
+			</div>
+		</React.Fragment>
+	)
 }

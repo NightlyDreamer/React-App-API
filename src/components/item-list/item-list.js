@@ -8,60 +8,70 @@ import './item-list.css';
 
 export default class ItemList extends Component {
 
-    swapiService = new SwapiService
+	swapiService = new SwapiService();
 
-    state = {
-        peopleList: null,
-        error: false,
-        loading: true,
-    }
+	state = {
+		peopleList: null,
+		error: false,
+		loading: true,
+	}
 
-    onError = (err) => {
-        this.setState({
-            error: true,
-            loading: false,
-        });
-    }
+	onError = (err) => {
+		this.setState({
+			error: true,
+			loading: false,
+		});
+	}
 
-    onListLoaded = (peopleList) => {
-        this.setState({
-            peopleList,
-            loading: false
-        })
-    }
+	onListLoaded = (peopleList) => {
+		this.setState({
+			peopleList,
+			loading: false
+		})
+	}
 
-    componentDidMount() {
-        this.swapiService
-            .getAllPeople()
-            .then(this.onListLoaded)
-            .catch(this.onError);
-    }
+	componentDidMount() {
+		this.swapiService
+			.getAllPeople()
+			.then(this.onListLoaded)
+			.catch(this.onError);
+	}
 
-    render() {
-        const { loading, error } = this.state;
+	render() {
+		const { loading, error, peopleList } = this.state;
+		const { onItemSelected } = this.props;
 
-        const hasData = !(loading || error);
+		const hasData = !(loading || error);
 
-        const errorMessage = error ? <ErrorIndicator /> : null;
-        const spinner = loading ? <Spiner /> : null;
-        const content = hasData ? <ItemListView /> : null;
+		const errorMessage = error ? <ErrorIndicator /> : null;
+		const spinner = loading ? <Spiner /> : null;
+		const content = hasData ? <ItemListView onItemSelected={onItemSelected} peopleList={peopleList} /> : null;
 
-        return(
-            <div className="item-list">
-                {errorMessage}
-                {spinner}
-                {content}
-            </div>
-        )
-    }
+		return (
+			<div className="item-list">
+				{errorMessage}
+				{spinner}
+				{content}
+			</div>
+		)
+	}
 }
 
-const ItemListView = () => {
-    return (
-        <ul className="list-group mb-3">
-            <li className="list-group-item">Luke Sktwalker</li>
-            <li className="list-group-item">R2-D2</li>
-            <li className="list-group-item">C3-PO</li>
-        </ul>
-    );
+const ItemListView = ({ peopleList, onItemSelected }) => {
+
+	const items = peopleList.map(({ id, name }) => {
+		return (
+			<li className="list-group-item"
+				key={id}
+				onClick={() => onItemSelected(id)}>
+				{name}
+			</li>
+		);
+	})
+
+	return (
+		<ul className="list-group mb-3">
+			{items}
+		</ul>
+	);
 }

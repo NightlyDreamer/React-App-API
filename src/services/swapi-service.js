@@ -3,7 +3,7 @@ export default class SwapiService {
 
 	async getResource(url) {
 		const resolve = await fetch(`${this._apiBase}${url}`);
-		if(!resolve.ok){
+		if (!resolve.ok) {
 			throw new Error(`Could not fetch ${url}, received ${resolve.status}`)
 		}
 		return await resolve.json();
@@ -14,7 +14,7 @@ export default class SwapiService {
 		return res.results.map(this._transformPersone);
 	};
 	async getPersone(id) {
-		const persone = this.getResource(`/people/${id}/`);
+		const persone = await this.getResource(`/people/${id}/`);
 		return this._transformPersone(persone)
 	};
 
@@ -31,12 +31,12 @@ export default class SwapiService {
 		const res = await this.getResource(`/planets/`);
 		return res.results.map(this._transformPlanet);
 	};
-	 async getPlanet(id) {
+	async getPlanet(id) {
 		const planet = await this.getResource(`/planets/${id}/`);
 		return this._transformPlanet(planet)
 	};
 
-	_id(item) {
+	_id = (item) => {
 		const regExp = /\/([0-9]*)\/$/;
 		return item.url.match(regExp)[1];
 	}
@@ -56,8 +56,8 @@ export default class SwapiService {
 			id: this._id(persone),
 			name: persone.name,
 			gender: persone.gender,
-			birthYear: persone.birthYear,
-			eyeColor: persone.eyeColor
+			birthYear: persone.birth_year,
+			eyeColor: persone.eye_color
 		}
 	}
 
