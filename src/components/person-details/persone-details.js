@@ -25,16 +25,13 @@ export default class PersonDetails extends Component {
 		}
 	}
 
-	componentDidCatch() {
-		this.setState({error: true})
-	}
-
 	updatePerson = () => {
 		const { personId } = this.props;
 		if (!personId) {
 			return;
 		}
-		this.setState({loading:true, error: false})
+		
+		this.setState({loading:true})
 
 		this.swapiServes
 			.getPersone(personId)
