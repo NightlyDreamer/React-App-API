@@ -19,18 +19,23 @@
     background-color: white;
     border-radius: 3px;
     margin: 0 10px 0 0;
+    transition: all ease 300ms;
 }
 .header ul li:last-child{
     margin: 0;
 }
 .header ul li:hover{
     cursor: pointer;
-    background-color: whitesmoke;
+    background-color: rgb(160, 160, 160);
 }
 .header a{
     text-decoration: none;
     color: gray;
+    transition: all ease 300ms;
 }
 .header h1 a{
+    color: white;
+}
+.header ul li:hover a{
     color: white;
 }
