@@ -11,7 +11,7 @@ export default class ItemList extends Component {
 	swapiService = new SwapiService();
 
 	state = {
-		peopleList: null,
+		itemList: null,
 		error: false,
 		loading: true,
 	}
@@ -23,29 +23,28 @@ export default class ItemList extends Component {
 		});
 	}
 
-	onListLoaded = (peopleList) => {
+	onListLoaded = (itemList) => {
 		this.setState({
-			peopleList,
+			itemList,
 			loading: false
 		})
 	}
 
 	componentDidMount() {
-		this.swapiService
-			.getAllPeople()
+		this.props.getData()
 			.then(this.onListLoaded)
 			.catch(this.onError);
 	}
 
 	render() {
-		const { loading, error, peopleList } = this.state;
+		const { loading, error, itemList } = this.state;
 		const { onItemSelected } = this.props;
 
 		const hasData = !(loading || error);
 
 		const errorMessage = error ? <ErrorIndicator /> : null;
 		const spinner = loading ? <Spiner /> : null;
-		const content = hasData ? <ItemListView onItemSelected={onItemSelected} peopleList={peopleList} /> : null;
+		const content = hasData ? <ItemListView onItemSelected={onItemSelected} itemList={itemList} /> : null;
 
 		return (
 			<div className="item-list">
@@ -57,9 +56,9 @@ export default class ItemList extends Component {
 	}
 }
 
-const ItemListView = ({ peopleList, onItemSelected }) => {
+const ItemListView = ({ itemList, onItemSelected }) => {
 
-	const items = peopleList.map(({ id, name }) => {
+	const items = itemList.map(({ id, name }) => {
 		return (
 			<li className="list-group-item"
 				key={id}

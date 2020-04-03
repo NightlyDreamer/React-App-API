@@ -5,8 +5,12 @@ import PersonDetails from '../person-details';
 import ErrorIndicator from '../error-indicator';
 
 import './people-page.css';
+import SwapiService from '../../services/swapi-service';
 
 export default class PeoplePage extends Component {
+
+	swapiService= new SwapiService();
+
   state = {
 		itemSelectedId: null,
 		error: false,
@@ -30,7 +34,9 @@ export default class PeoplePage extends Component {
     return (	
       <div className="row mb-2">
 					<div className="col-md-6">
-						<ItemList onItemSelected={this.onItemSelected} />
+						<ItemList 
+							getData={this.swapiService.getAllPeople}
+							onItemSelected={this.onItemSelected} />
 					</div>
 					<div className="col-md-6">
 						<PersonDetails personId={this.state.itemSelectedId} />
