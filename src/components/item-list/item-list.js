@@ -38,13 +38,13 @@ export default class ItemList extends Component {
 
 	render() {
 		const { loading, error, itemList } = this.state;
-		const { onItemSelected } = this.props;
+		const { onItemSelected, renderItem } = this.props;
 
 		const hasData = !(loading || error);
 
 		const errorMessage = error ? <ErrorIndicator /> : null;
 		const spinner = loading ? <Spiner /> : null;
-		const content = hasData ? <ItemListView onItemSelected={onItemSelected} itemList={itemList} /> : null;
+		const content = hasData ? <ItemListView onItemSelected={onItemSelected} itemList={itemList} renderItem={renderItem} /> : null;
 
 		return (
 			<div className="item-list">
@@ -56,14 +56,16 @@ export default class ItemList extends Component {
 	}
 }
 
-const ItemListView = ({ itemList, onItemSelected }) => {
+const ItemListView = ({ itemList, onItemSelected, renderItem }) => {
+	const items = itemList.map((item) => {
+		const label = renderItem(item);
+		const {id} = item;
 
-	const items = itemList.map(({ id, name }) => {
 		return (
 			<li className="list-group-item"
 				key={id}
 				onClick={() => onItemSelected(id)}>
-				{name}
+				{label}
 			</li>
 		);
 	})

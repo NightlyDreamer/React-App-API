@@ -34,6 +34,7 @@ export default class App extends Component {
 		return (
 			<div className="app">
 				<Header />
+
 				{randomPlanet}
 
 				<button
@@ -41,6 +42,7 @@ export default class App extends Component {
 					onClick={this.toggleRandomPlanet}>
 					Toggle Random Planet
 				</button>
+				
 				<ErrorButton />
 
 				<PeoplePage /> 
