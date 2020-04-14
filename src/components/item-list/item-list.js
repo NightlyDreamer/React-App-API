@@ -38,8 +38,9 @@ export default class ItemList extends Component {
 
 	render() {
 		const { loading, error, itemList } = this.state;
-		const { onItemSelected, renderItem } = this.props;
-
+		const { onItemSelected } = this.props;
+		const renderItem = this.props.children;
+		
 		const hasData = !(loading || error);
 
 		const errorMessage = error ? <ErrorIndicator /> : null;

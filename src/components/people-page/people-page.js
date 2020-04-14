@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 
 import ItemList from '../item-list';
-import PersonDetails from '../person-details';
-import ErrorIndicator from '../error-indicator';
+import ItemDetails, { Record } from '../item-details';
+import ErrorBoundry from '../error-boundry';
 import Row from '../row';
 import './people-page.css';
 import SwapiService from '../../services/swapi-service';
+
+
 
 export default class PeoplePage extends Component {
 
@@ -13,13 +15,8 @@ export default class PeoplePage extends Component {
 
   state = {
 		itemSelectedId: null,
-		error: false,
 	}
 	
-	componentDidCatch() {
-		this.setState({error: true})
-	}
-
   onItemSelected = (id) => {
 		this.setState({
 			itemSelectedId: id,
@@ -27,23 +24,42 @@ export default class PeoplePage extends Component {
 	}
 
   render() {
-		if (this.state.error) {
-			return <ErrorIndicator />
-		}
-		
 		const itemList = (
 			<ItemList 
 							getData={this.swapiService.getAllPeople}
-							onItemSelected={this.onItemSelected}
-							renderItem={({ name, birthYear }) => (`${name} (${birthYear})`)} />
+							onItemSelected={this.onItemSelected}>
+				{(i) => (
+					`${i.name} (${i.birthYear})`
+				)}
+			</ItemList>
 		);
-		
-		const personDetails = (
-			<PersonDetails personId={this.state.itemSelectedId} />
+
+		const { getPersone, getStarship, getPersoneImage, getStarshipImage } = this.swapiService;
+
+		const peopleDetails = (
+			<ItemDetails 
+				getData={getPersone}
+				imgUrl={getPersoneImage}
+				itemId={3} >
+					<Record fild='birthYear' label='Year' />
+					<Record fild='eyeColor' label='Eye Color' />
+					<Record fild='gender' label='Gender' />
+			</ItemDetails>
+		);
+		const starshipsDetails = (
+			<ItemDetails 
+				getData={getStarship}
+				imgUrl={getStarshipImage}
+				itemId={4} >
+					<Record fild='model' label='Model' />
+					<Record fild='lebgth' label='Lebgth' />
+			</ItemDetails>
 		);
 
 		return(
-			<Row left={itemList} right={personDetails} />
+			<ErrorBoundry>
+				<Row left={peopleDetails} right={starshipsDetails} />
+			</ErrorBoundry>
 		);
   }
 }
